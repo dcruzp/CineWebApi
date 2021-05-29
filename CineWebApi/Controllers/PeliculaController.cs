@@ -104,23 +104,46 @@ namespace CineWebApi.Controllers
         {
             try
             {
-                var model = await _repository.GetPeliculaAsync(title);
-                if (model != null) return NotFound("Not "); 
+                var oldfilm = await _repository.GetPeliculaAsync(title);
+                if (oldfilm == null) return NotFound($"Could not found film with title of {title}");
 
+                _mapper.Map(pelicula, oldfilm); 
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return _mapper.Map<PeliculaModels>(oldfilm); 
+                }
             }
             catch 
             {
-
-                throw;
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
+
+            return BadRequest(); 
         }
 
         // DELETE api/<PeliculaController>/5
-        [HttpDelete("{id}")]
-        public Task<ActionResult<PeliculaModels>> Delete(int id)
+        [HttpDelete("{title}")]
+        public async Task<ActionResult<PeliculaModels>> Delete(string title)
         {
-            throw new Exception(); 
-           
+            try
+            {
+                var oldfilm = await _repository.GetPeliculaAsync(title);
+                if (oldfilm == null) return NotFound();
+
+                _repository.Delete(oldfilm); 
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok(); 
+                }
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+            }
+
+            return BadRequest("Failed to delete the film"); 
         }
     }
 }

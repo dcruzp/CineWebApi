@@ -10,8 +10,6 @@ namespace CineWebApi.Models
     {
         public string Titulo { get; set; }
         public string Genero { get; set; }
-        public string Pais { get; set; }
-        //Aki 
-        // este aqui es el mio , de daniel
+        public string Pais { get; set; }       
     }
 }
