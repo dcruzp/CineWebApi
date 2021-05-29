@@ -7,6 +7,7 @@ using CineWebApi.Data;
 using CineWebApi.DBModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +53,16 @@ namespace CineWebApi
 
             app.UseRouting();
 
+            app.UseCors("React_Policy");
+
             app.UseAuthorization();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                    ForwardedHeaders.XForwardedProto
+            });
+
 
             app.UseEndpoints(endpoints =>
             {
@@ -60,6 +70,12 @@ namespace CineWebApi
             });
 
 
+            PutDataIntoDatabase(context); 
+            
+        }
+
+        private void PutDataIntoDatabase(CineContext context)
+        {
             if (!context.Peliculas.Any())
             {
                 context.Peliculas.AddRange(new List<Pelicula>()
@@ -68,7 +84,7 @@ namespace CineWebApi
                     new Pelicula(){ Titulo = "Exterminator" , Genero = "Ciencia Ficcion" , Pais = "EEUU"},
                 });
 
-                context.SaveChanges(); 
+                context.SaveChanges();
             }
         }
     }

@@ -6,6 +6,7 @@ using AutoMapper;
 using CineWebApi.Data;
 using CineWebApi.DBModels;
 using CineWebApi.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -16,6 +17,7 @@ namespace CineWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("React_Policy")]
     public class PeliculaController : ControllerBase
     {
         private readonly IPeliculaRepository _repository;
