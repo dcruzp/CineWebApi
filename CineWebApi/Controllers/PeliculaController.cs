@@ -99,10 +99,20 @@ namespace CineWebApi.Controllers
         }
 
         // PUT api/<PeliculaController>/5
-        [HttpPut("{id}")]
-        public Task<ActionResult<PeliculaModels>> Put(int id, [FromBody] string value)
+        [HttpPut("{title}")]
+        public async Task<ActionResult<PeliculaModels>> Put(string title, [FromBody] PeliculaModels pelicula)
         {
-            throw new Exception(); 
+            try
+            {
+                var model = await _repository.GetPeliculaAsync(title);
+                if (model != null) return NotFound("Not "); 
+
+            }
+            catch 
+            {
+
+                throw;
+            }
         }
 
         // DELETE api/<PeliculaController>/5
