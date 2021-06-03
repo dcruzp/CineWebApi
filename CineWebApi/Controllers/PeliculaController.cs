@@ -96,7 +96,6 @@ namespace CineWebApi.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
-
             return BadRequest();
         }
 

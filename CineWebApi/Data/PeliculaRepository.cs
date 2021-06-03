@@ -12,12 +12,12 @@ namespace CineWebApi.Data
     public class PeliculaRepository:IPeliculaRepository
     {
         private readonly CineContext _context;
-        private readonly ILogger<PeliculaRepository> _logger; 
+        private readonly ILogger<PeliculaRepository> _logger;
 
         public PeliculaRepository(CineContext context, ILogger<PeliculaRepository> logger )
         {
             _context = context;
-            _logger = logger; 
+            _logger = logger;
         }
 
         public void Add<T>(T entity) where T : class

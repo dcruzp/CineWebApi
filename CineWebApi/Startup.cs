@@ -35,6 +35,7 @@ namespace CineWebApi
             services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
 
             services.AddScoped<IPeliculaRepository,PeliculaRepository>();
+            services.AddScoped<ISociosRepository,SociosRepository>(); 
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -82,10 +83,30 @@ namespace CineWebApi
                 {
                     new Pelicula(){ Titulo = "Jurasic World" , Genero = "Ciencia Ficcion" , Pais = "EEUU"},
                     new Pelicula(){ Titulo = "Exterminator" , Genero = "Ciencia Ficcion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "WithOut Remorse" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "Triple Frontier" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "Army Dead" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "Outside the Wire" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "Extraction" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "Underground" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "The old Guard" , Genero = "Accion" , Pais = "EEUU"},
+                    new Pelicula(){ Titulo = "El Gran Robo" , Genero = "Accion" , Pais = "Espana"},
+                    new Pelicula(){ Titulo = "Interestellar" , Genero = "Ciencia Ficcion" , Pais = "EEUU"},
                 });
 
                 context.SaveChanges();
             }
+            if (!context.Socios.Any())
+            {
+                context.Socios.AddRange(new List<Socio>()
+                {
+                    new Socio{ Nombre ="Daniel" , CI = "97012402344" , Puntos = 0 , Apellidos="De La Cruz Prieto"},
+                    new Socio{ Nombre ="David" , CI = "010201240234" , Puntos = 0 , Apellidos="De La Cruz Prieto"},
+                });
+
+                context.SaveChanges();
+            }
+
         }
     }
 }
