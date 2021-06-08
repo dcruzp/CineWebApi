@@ -37,11 +37,9 @@ namespace CineWebApi.Controllers
             {
                 var models = await _repository.GetAllSociosAsync();
 
-                Console.WriteLine();
-
                 return models; 
             }
-            catch 
+            catch (Exception e)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure"); 
             }

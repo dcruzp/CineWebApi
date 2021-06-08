@@ -1,8 +1,8 @@
 ﻿using CineWebApi.DBModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +35,7 @@ namespace CineWebApi.Data
         {
             IQueryable<Socio> query = _context.Socios;
 
-            query = query.OrderByDescending(x => x.Nombre);
+            //query = query.OrderByDescending(x => x.Nombre);
 
             return await query.ToArrayAsync(); 
         }
@@ -50,7 +50,7 @@ namespace CineWebApi.Data
         public async Task<Socio> GetSociosAsync(Guid id)
         {
             IQueryable<Socio> query = _context.Socios.Where(x => x.IdSocio == id);
-           
+
             return await query.FirstOrDefaultAsync();
         }
 

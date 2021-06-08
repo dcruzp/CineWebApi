@@ -14,7 +14,7 @@ namespace CineWebApi.DBModels
         }
 
         public Guid IdSala { get; set; }
-        public byte[] Nombre { get; set; }
+        public string Nombre { get; set; }
         public int CantidadAsientos { get; set; }
 
         public virtual ICollection<Asiento> Asientos { get; set; }

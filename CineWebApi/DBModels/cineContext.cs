@@ -42,7 +42,7 @@ namespace CineWebApi.DBModels
             {
                 entity.HasKey(e => e.IdAsiento);
 
-                entity.Property(e => e.IdAsiento).ValueGeneratedNever();
+                entity.Property(e => e.IdAsiento).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.IdSala).HasComment("Este compo es para tener una representacion del Id de la Sala en la que se encuantra el Asiento ");
 
@@ -58,6 +58,10 @@ namespace CineWebApi.DBModels
                 entity.HasKey(e => new { e.IdCompra, e.IdEntrada });
 
                 entity.ToTable("Compra");
+
+                entity.Property(e => e.IdCompra).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.IdEntrada).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Hora).HasColumnType("datetime");
 
@@ -89,7 +93,7 @@ namespace CineWebApi.DBModels
             {
                 entity.HasKey(e => e.IdEntrada);
 
-                entity.Property(e => e.IdEntrada).ValueGeneratedNever();
+                entity.Property(e => e.IdEntrada).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Hora).HasColumnType("datetime");
 
@@ -151,7 +155,8 @@ namespace CineWebApi.DBModels
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Socio>(entity =>

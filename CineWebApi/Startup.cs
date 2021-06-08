@@ -35,7 +35,9 @@ namespace CineWebApi
             services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
 
             services.AddScoped<IPeliculaRepository,PeliculaRepository>();
-            services.AddScoped<ISociosRepository,SociosRepository>(); 
+            services.AddScoped<ISociosRepository,SociosRepository>();
+            services.AddScoped<IEntradaRepository,EntradaRepository>();
+            services.AddScoped<ISalasRepository, SalasRepository>(); 
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -106,7 +108,62 @@ namespace CineWebApi
 
                 context.SaveChanges();
             }
+            if (!context.Salas.Any())
+            {
+                context.Salas.AddRange(new List<Sala>()
+                {
+                    new Sala { Nombre = "Sala1" , CantidadAsientos = 20}, 
+                    new Sala { Nombre = "Sala2" , CantidadAsientos = 30},
+                    new Sala { Nombre = "Sala3" , CantidadAsientos = 100}
+                });
+                context.SaveChanges();
+            }
 
+            PutAllAsientosInDatabase(context);
+
+            PutEntradasInDatabase(context); 
+        }
+
+        public void PutAllAsientosInDatabase (CineContext context)
+        {
+            foreach (var item in context.Salas)
+            {
+                PutAsientosInDatabase(item.IdSala, context); 
+            }
+        }
+
+        public void PutAsientosInDatabase (Guid idSala , CineContext context)
+        {
+            var sala = context.Salas.Where(x => x.IdSala == idSala).FirstOrDefault();
+
+            for (int i = 0; i < sala.CantidadAsientos; i++)
+            {
+                var asiento = new Asiento() { IdSala = sala.IdSala , Ocupado = false};
+                context.Add(asiento); 
+            }
+            context.SaveChanges(); 
+        }
+
+        public void PutEntradasInDatabase(CineContext context)
+        {
+            var Pelicula = context.Peliculas.Where(x => x.Titulo == "Jurasic World").FirstOrDefault();
+            var Sala = context.Salas.Where(x => x.Nombre == "Sala1").FirstOrDefault();
+
+            var hora = DateTime.Now;
+
+            foreach (var item in context.Asientos.Where(x=>x.IdSala == Sala.IdSala))
+            {
+                var entrada = new Entradum()
+                {
+                    IdPelicula = Pelicula.IdPelicula,
+                    IdSala = Sala.IdSala,
+                    IdAsiento = item.IdAsiento,
+                    Hora = hora,
+                    Precio = 15
+                };
+                context.Entrada.Add(entrada);
+            }
+            context.SaveChanges();
         }
     }
 }
