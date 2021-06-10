@@ -56,8 +56,22 @@ namespace CineWebApi.Controllers
 
         // POST api/<SalasController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Sala>> Post([FromBody] Sala sala)
         {
+            try
+            {
+                _repository.Add(sala); 
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Created("api/", sala); 
+                }
+            }
+            catch (Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Databasa Failure"); 
+            }
+            return BadRequest("Cant not insert the  sala into de database"); 
         }
 
         // PUT api/<SalasController>/5

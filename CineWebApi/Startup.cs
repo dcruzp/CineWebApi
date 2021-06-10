@@ -32,7 +32,8 @@ namespace CineWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
+            //services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
+            services.AddDbContext<CineContext>();
 
             services.AddScoped<IPeliculaRepository,PeliculaRepository>();
             services.AddScoped<ISociosRepository,SociosRepository>();
@@ -103,7 +104,7 @@ namespace CineWebApi
                 context.Socios.AddRange(new List<Socio>()
                 {
                     new Socio{ Nombre ="Daniel" , CI = "97012402344" , Puntos = 0 , Apellidos="De La Cruz Prieto"},
-                    new Socio{ Nombre ="David" , CI = "010201240234" , Puntos = 0 , Apellidos="De La Cruz Prieto"},
+                    new Socio{ Nombre ="David" , CI = "01020124023" , Puntos = 0 , Apellidos="De La Cruz Prieto"},
                 });
 
                 context.SaveChanges();
@@ -119,29 +120,45 @@ namespace CineWebApi
                 context.SaveChanges();
             }
 
-            PutAllAsientosInDatabase(context);
+            if (!context.Asientos.Any())
+            {
+                PutAllAsientosInDatabase();
+            }
 
-            PutEntradasInDatabase(context); 
+            if (!context.Entrada.Any())
+            {
+                PutEntradasInDatabase(context);
+            }
+            
         }
 
-        public void PutAllAsientosInDatabase (CineContext context)
+        public void PutAllAsientosInDatabase ()
         {
-            foreach (var item in context.Salas)
+            using (var context = new CineContext())
             {
-                PutAsientosInDatabase(item.IdSala, context); 
+                foreach (var item in context.Salas)
+                {
+                    PutAsientosInDatabase(item.IdSala);
+                } 
             }
         }
 
-        public void PutAsientosInDatabase (Guid idSala , CineContext context)
+        public void PutAsientosInDatabase (Guid idSala)
         {
-            var sala = context.Salas.Where(x => x.IdSala == idSala).FirstOrDefault();
-
-            for (int i = 0; i < sala.CantidadAsientos; i++)
+            using (var context = new CineContext())
             {
-                var asiento = new Asiento() { IdSala = sala.IdSala , Ocupado = false};
-                context.Add(asiento); 
+
+                var sala = context.Salas.Where(x => x.IdSala == idSala).FirstOrDefault();
+
+
+                for (int i = 0; i < sala.CantidadAsientos; i++)
+                {
+                    var asiento = new Asiento() { IdSala = sala.IdSala, Ocupado = false };
+                    context.Add(asiento);
+
+                }
+                context.SaveChanges(); 
             }
-            context.SaveChanges(); 
         }
 
         public void PutEntradasInDatabase(CineContext context)

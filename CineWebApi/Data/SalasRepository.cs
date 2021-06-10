@@ -20,7 +20,7 @@ namespace CineWebApi.Data
             _logger = logger;
         }
 
-        public void Add<T>(T entity) where T : class
+        public void Add (Sala entity) 
         {
             Sala sala = entity as Sala;
             
