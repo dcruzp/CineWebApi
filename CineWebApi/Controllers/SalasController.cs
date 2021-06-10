@@ -89,8 +89,29 @@ namespace CineWebApi.Controllers
 
         // DELETE api/<SalasController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<Sala>> Delete(Guid id)
         {
+            try
+            {
+                var sala =  await _repository.GetSalaAsync(id); 
+
+                if (sala == null)
+                {
+                    return NotFound(); 
+                }
+
+                _repository.Delete(sala);
+                
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok(sala);
+                }
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure"); 
+            }
+            return BadRequest($"Could not delete the sala with id={id.ToString()}");
         }
     }
 }

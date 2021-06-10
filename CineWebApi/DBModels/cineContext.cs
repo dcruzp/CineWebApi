@@ -49,7 +49,6 @@ namespace CineWebApi.DBModels
                 entity.HasOne(d => d.IdSalaNavigation)
                     .WithMany(p => p.Asientos)
                     .HasForeignKey(d => d.IdSala)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Asientos_Sala");
             });
 

@@ -41,7 +41,7 @@ namespace CineWebApi.Data
         {
             IQueryable<Sala> query = _context.Salas;
 
-            query = query.Where(x => x.IdSala == id);
+            query = query.Where(x => x.IdSala == id).Include(x=>x.Asientos);
 
             return await query.FirstOrDefaultAsync();
         }
