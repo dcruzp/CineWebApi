@@ -9,7 +9,7 @@ namespace CineWebApi.Data
 {
     public interface ISalasRepository
     {
-        public void Add(Sala entity);
+        public void Add<T>(T entity) where T : class;
 
         public void Delete<T>(T entity) where T : class;
 

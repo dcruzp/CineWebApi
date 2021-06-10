@@ -60,18 +60,25 @@ namespace CineWebApi.Controllers
         {
             try
             {
+                List<Asiento> asientos = new List<Asiento>();
+
+                for (int i = 0; i < sala.CantidadAsientos; i++)
+                {
+                    sala.Asientos.Add(new Asiento() { Ocupado = false });
+                }
+
                 _repository.Add(sala); 
 
                 if (await _repository.SaveChangesAsync())
                 {
-                    return Created("api/", sala); 
+                    return Created($"api/salas/{sala.IdSala.ToString()}", sala); 
                 }
             }
             catch (Exception)
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Databasa Failure"); 
             }
-            return BadRequest("Cant not insert the  sala into de database"); 
+            return BadRequest("Cant not insert the sala into de database"); 
         }
 
         // PUT api/<SalasController>/5

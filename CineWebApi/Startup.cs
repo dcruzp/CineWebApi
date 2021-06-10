@@ -35,6 +35,8 @@ namespace CineWebApi
             //services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
             services.AddDbContext<CineContext>();
 
+
+
             services.AddScoped<IPeliculaRepository,PeliculaRepository>();
             services.AddScoped<ISociosRepository,SociosRepository>();
             services.AddScoped<IEntradaRepository,EntradaRepository>();
