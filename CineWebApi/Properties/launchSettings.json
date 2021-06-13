@@ -14,7 +14,9 @@
       "launchBrowser": true,
       "launchUrl": "api/pelicula",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "Llave_super_secreta": "SDKFHSKJGHKSLHDGLDFKHGLJSHDGJKHSDFGSDFHGJFDJGLKJFDGHSDFGREF",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Clave": "Valor"
       }
     },
     "CineWebApi": {

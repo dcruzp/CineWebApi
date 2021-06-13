@@ -31,7 +31,7 @@ namespace CineWebApi.Data
             _context.Remove(entity); 
         }
 
-        public Task<Entradum[]> GetAllEntradasAsync()
+        public async Task<Entradum[]> GetAllEntradasAsync()
         {
             _logger.LogInformation($"Filtrando todas las entradas que hay" +
                                      $" en la base de datos");
@@ -42,10 +42,10 @@ namespace CineWebApi.Data
             //entan disponibles las entradas. 
             query.OrderByDescending(x => x.Hora);
 
-            return query.ToArrayAsync();
+            return await query.ToArrayAsync();
         }
 
-        public Task<Entradum[]> GetAllEntradasAsync(DateTime min_datetime, 
+        public async Task<Entradum[]> GetAllEntradasAsync(DateTime min_datetime, 
                                                     DateTime max_datetime, 
                                                     decimal min_price, 
                                                     decimal max_price)
@@ -62,10 +62,10 @@ namespace CineWebApi.Data
             // filtrando por el precio de las entradas 
             query = query.Where(x => x.Precio > min_price && x.Precio < max_price);
 
-            return query.ToArrayAsync(); 
+            return await query.ToArrayAsync(); 
         }
 
-        public Task<Entradum> GetEntradaAsync(Guid id)
+        public async Task<Entradum> GetEntradaAsync(Guid id)
         {
             _logger.LogInformation($"filtrando la entrada que corresponde " +
                 $"el Id = {id.ToString()}");
@@ -74,7 +74,7 @@ namespace CineWebApi.Data
 
             query = query.Where(x => x.IdEntrada == id);
 
-            return query.FirstOrDefaultAsync(); 
+            return await query.FirstOrDefaultAsync(); 
         }
 
         public async Task<bool> SaveChangesAsync()

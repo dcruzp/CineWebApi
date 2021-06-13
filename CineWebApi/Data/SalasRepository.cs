@@ -30,18 +30,28 @@ namespace CineWebApi.Data
             _context.Remove(entity); 
         }
 
-        public async Task<Sala[]> GetAllSalasAsync()
+        public async Task<Sala[]> GetAllSalasAsync(bool includeasientos = false)
         {
             IQueryable<Sala> query = _context.Salas;
+
+            if (includeasientos )
+            {
+                query = query.Include(x => x.Asientos);
+            }
 
             return await query.ToArrayAsync();
         }
 
-        public async Task<Sala> GetSalaAsync(Guid id)
+        public async Task<Sala> GetSalaAsync(Guid id , bool includeasientos = false)
         {
             IQueryable<Sala> query = _context.Salas;
 
-            query = query.Where(x => x.IdSala == id).Include(x=>x.Asientos);
+            query = query.Where(x => x.IdSala == id);
+
+            if (includeasientos)
+            {
+                query = query.Include(x => x.Asientos); 
+            }
 
             return await query.FirstOrDefaultAsync();
         }

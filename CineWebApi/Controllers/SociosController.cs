@@ -39,7 +39,7 @@ namespace CineWebApi.Controllers
 
                 return models; 
             }
-            catch (Exception e)
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure"); 
             }
@@ -138,6 +138,7 @@ namespace CineWebApi.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
+           
             return BadRequest("Failed to delete the Socio");
         }
     }

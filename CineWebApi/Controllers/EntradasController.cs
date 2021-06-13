@@ -37,15 +37,16 @@ namespace CineWebApi.Controllers
             }
         }
 
-        [HttpGet("{price:decimal}")]
-        public async Task<ActionResult<Entradum[]>> Get (decimal price)
+        [HttpGet("{min_price:decimal}")]
+        public async Task<ActionResult<Entradum[]>> Get (decimal min_price = 0,
+                                                         decimal max_price = decimal.MaxValue)
         {
             try
             {
-                var entradas = await _repository.GetAllEntradasAsync(min_price: decimal.MinValue,
-                                                                     max_price: price,
-                                                                     min_datetime: DateTime.MinValue,
-                                                                     max_datetime: DateTime.Now);
+                var entradas = await _repository.GetAllEntradasAsync(min_price: min_price,
+                                                                     max_price: max_price,
+                                                                     min_datetime: DateTime.Now,
+                                                                     max_datetime: DateTime.MaxValue);
 
                 return entradas; 
             }

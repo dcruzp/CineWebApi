@@ -24,11 +24,11 @@ namespace CineWebApi.Controllers
 
         // GET: api/<SalasController>
         [HttpGet]
-        public async Task<ActionResult<Sala[]>> Get()
+        public async Task<ActionResult<Sala[]>> Get(bool includeasientos = false)
         {
             try
             {
-                var salas = await _repository.GetAllSalasAsync();
+                var salas = await _repository.GetAllSalasAsync(includeasientos);
 
                 return salas; 
             }
@@ -40,11 +40,11 @@ namespace CineWebApi.Controllers
 
         // GET api/<SalasController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Sala>> Get(Guid id)
+        public async Task<ActionResult<Sala>> Get(Guid id , bool includeasientos = false)
         {
             try
             {
-                var sala = await _repository.GetSalaAsync(id);
+                var sala = await _repository.GetSalaAsync(id, includeasientos);
 
                 return sala; 
             }
@@ -107,7 +107,7 @@ namespace CineWebApi.Controllers
                     return Ok(sala);
                 }
             }
-            catch (Exception e)
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure"); 
             }

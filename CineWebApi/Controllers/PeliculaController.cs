@@ -6,6 +6,8 @@ using AutoMapper;
 using CineWebApi.Data;
 using CineWebApi.DBModels;
 using CineWebApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +20,9 @@ namespace CineWebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("React_Policy")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PeliculaController : ControllerBase
-    {
+    { 
         private readonly IPeliculaRepository _repository;
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
