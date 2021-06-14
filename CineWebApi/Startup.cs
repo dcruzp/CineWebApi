@@ -35,10 +35,10 @@ namespace CineWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
-            
-            services.AddDbContext<CineContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
+
+            //services.AddDbContext<CineContext>(options => 
+            //options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
             services.AddIdentity<CineUser, IdentityRole>()
                 .AddEntityFrameworkStores<CineContext>()
@@ -104,7 +104,7 @@ namespace CineWebApi
             });
 
 
-            //PutDataIntoDatabase(context);
+            PutDataIntoDatabase(context);
 
         }
 
@@ -143,16 +143,11 @@ namespace CineWebApi
             {
                 context.Salas.AddRange(new List<Sala>()
                 {
-                    new Sala { Nombre = "Sala1" , CantidadAsientos = 20}, 
-                    new Sala { Nombre = "Sala2" , CantidadAsientos = 30},
-                    new Sala { Nombre = "Sala3" , CantidadAsientos = 100}
+                    CreateSala("Sala1", 20), 
+                    CreateSala("Sala2", 30),
+                    CreateSala("Sala3", 40)
                 });
                 context.SaveChanges();
-            }
-
-            if (!context.Asientos.Any())
-            {
-                PutAllAsientosInDatabase();
             }
 
             if (!context.Entrada.Any())
@@ -162,34 +157,27 @@ namespace CineWebApi
             
         }
 
-        public void PutAllAsientosInDatabase ()
+        
+        private Sala CreateSala (string nombre, int cantidadasientos)
         {
-            using (var context = new CineContext())
+            Sala sala = new Sala();
+            sala.Nombre = nombre;
+            sala.CantidadAsientos = cantidadasientos;
+
+            List<Asiento> asientos = new List<Asiento>(); 
+
+            for (int i = 0; i < sala.CantidadAsientos; i++)
             {
-                foreach (var item in context.Salas)
-                {
-                    PutAsientosInDatabase(item.IdSala);
-                } 
+                Asiento asiento = new Asiento() { Ocupado = false };
+                asientos.Add(asiento); 
             }
+
+            sala.Asientos = asientos;
+
+            return sala; 
         }
 
-        public void PutAsientosInDatabase (Guid idSala)
-        {
-            using (var context = new CineContext())
-            {
-
-                var sala = context.Salas.Where(x => x.IdSala == idSala).FirstOrDefault();
-
-
-                for (int i = 0; i < sala.CantidadAsientos; i++)
-                {
-                    var asiento = new Asiento() { IdSala = sala.IdSala, Ocupado = false };
-                    context.Add(asiento);
-
-                }
-                context.SaveChanges(); 
-            }
-        }
+        
 
         public void PutEntradasInDatabase(CineContext context)
         {

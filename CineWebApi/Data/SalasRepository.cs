@@ -22,16 +22,25 @@ namespace CineWebApi.Data
 
         public void Add<T>(T entity) where T : class 
         {
+            _logger.LogInformation($"Anadiendo una Sala a la " +
+                $"base de datos");
+
             _context.Add(entity); 
         }
 
         public void Delete<T>(T entity) where T : class
         {
+            _logger.LogInformation($"Borrando una Sala de la " +
+                $"base de datos");
+
             _context.Remove(entity); 
         }
 
         public async Task<Sala[]> GetAllSalasAsync(bool includeasientos = false)
         {
+            _logger.LogInformation($"Filtrando todas las salas que existen en " +
+                $"la base de datos");
+
             IQueryable<Sala> query = _context.Salas;
 
             if (includeasientos )
@@ -44,6 +53,9 @@ namespace CineWebApi.Data
 
         public async Task<Sala> GetSalaAsync(Guid id , bool includeasientos = false)
         {
+            _logger.LogInformation($"Filtando la Sala que existe en la " +
+                $"base de datos que tiene el id = {id}");
+
             IQueryable<Sala> query = _context.Salas;
 
             query = query.Where(x => x.IdSala == id);

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CineWebApi.Data;
 using CineWebApi.DBModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -15,6 +17,7 @@ namespace CineWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SociosController : ControllerBase
     {
         private readonly ISociosRepository _repository;

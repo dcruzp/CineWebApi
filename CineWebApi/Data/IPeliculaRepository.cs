@@ -15,6 +15,8 @@ namespace CineWebApi.Data
 
         public Task<Pelicula[]> GetAllPeliculasAsync();
 
+        public Task<Pelicula> GetPeliculaAsync(Guid id); 
+
         public Task<Pelicula> GetPeliculaAsync(string titulo);
 
         public Task<bool> SaveChangesAsync();

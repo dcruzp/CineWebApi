@@ -51,13 +51,12 @@ namespace CineWebApi.Controllers
             }
         }
 
-        // GET api/<PeliculaController>/5
-        [HttpGet("{titulo}")]
-        public async Task<ActionResult<PeliculaModels>> Get(string titulo)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PeliculaModels>> Get(Guid id)
         {
             try
             {
-                var models = await _repository.GetPeliculaAsync(titulo);
+                var models = await _repository.GetPeliculaAsync(id);
 
                 return _mapper.Map<PeliculaModels>(models);
             }
@@ -66,6 +65,23 @@ namespace CineWebApi.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
+
+
+        // GET api/<PeliculaController>/5
+        //[HttpGet("{titulo}")]
+        //public async Task<ActionResult<PeliculaModels>> Get(string titulo)
+        //{
+        //    try
+        //    {
+        //        var models = await _repository.GetPeliculaAsync(titulo);
+
+        //        return _mapper.Map<PeliculaModels>(models);
+        //    }
+        //    catch
+        //    {
+        //        return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+        //    }
+        //}
 
         // POST api/<PeliculaController>
         [HttpPost]
