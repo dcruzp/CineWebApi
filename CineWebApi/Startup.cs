@@ -35,10 +35,10 @@ namespace CineWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
+            //services.AddDbContext<CineContext>(options => options.UseInMemoryDatabase("database"));
 
-            //services.AddDbContext<CineContext>(options => 
-            //options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddDbContext<CineContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
 
             services.AddIdentity<CineUser, IdentityRole>()
                 .AddEntityFrameworkStores<CineContext>()
@@ -62,7 +62,8 @@ namespace CineWebApi
             services.AddScoped<IPeliculaRepository,PeliculaRepository>();
             services.AddScoped<ISociosRepository,SociosRepository>();
             services.AddScoped<IEntradaRepository,EntradaRepository>();
-            services.AddScoped<ISalasRepository, SalasRepository>(); 
+            services.AddScoped<ISalasRepository, SalasRepository>();
+            services.AddScoped<IEntradasModelsRepository, EntradasModelsRepository>(); 
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -149,7 +150,6 @@ namespace CineWebApi
                 });
                 context.SaveChanges();
             }
-
             if (!context.Entrada.Any())
             {
                 PutEntradasInDatabase(context);

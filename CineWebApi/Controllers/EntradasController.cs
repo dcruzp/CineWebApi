@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CineWebApi.Data;
 using CineWebApi.DBModels;
+using CineWebApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +19,15 @@ namespace CineWebApi.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EntradasController : ControllerBase
     {
-        private readonly IEntradaRepository _repository; 
+        private readonly IEntradaRepository _repository;
         public EntradasController(IEntradaRepository repository)
         {
-            _repository = repository; 
+            _repository = repository;
         }
 
-        // GET: api/<EntradasController>
+        //GET: api/<EntradasController>
         [HttpGet]
-        public async Task<ActionResult<Entradum[]>>  Get()
+        public async Task<ActionResult<Entradum[]>> Get()
         {
             try
             {
@@ -36,22 +37,23 @@ namespace CineWebApi.Controllers
             }
             catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure"); 
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
 
-        [HttpGet("{min_price:decimal}")]
-        public async Task<ActionResult<Entradum[]>> Get (decimal min_price = 0,
-                                                         decimal max_price = decimal.MaxValue)
+        [HttpGet("search")]
+        public async Task<ActionResult<Entradum[]>> Get([FromQuery] EntradaQueryModels query)
         {
             try
             {
-                var entradas = await _repository.GetAllEntradasAsync(min_price: min_price,
-                                                                     max_price: max_price,
-                                                                     min_datetime: DateTime.Now,
-                                                                     max_datetime: DateTime.MaxValue);
 
-                return entradas; 
+
+                var entradas = await _repository.GetAllEntradasAsync(min_price: query.minPrice,
+                                                                     max_price: query.maxPrice,
+                                                                     min_datetime: query.minDatetime,
+                                                                     max_datetime: query.maxDatetime);
+
+                return entradas;
             }
             catch (Exception)
             {

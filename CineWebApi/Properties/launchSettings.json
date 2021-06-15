@@ -24,6 +24,7 @@
       "launchBrowser": true,
       "launchUrl": "api/pelicula",
       "environmentVariables": {
+        "Llave_super_secreta": "ADKJFSKDBVAHRUIBJKSNCJADSKFDBLIASFKGDSKVBUIBUAEBFJBSDKVBKDUHFISHGUSF",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "https://localhost:5001"
