@@ -29,25 +29,32 @@ namespace CineWebApi.Data
 
             Pelicula pelicula = await query.FirstOrDefaultAsync();
 
-            IQueryable<Entradum> query1 = _context.Entrada.Where(x => x.IdPelicula == id).Include(x=>x.IdSalaNavigation);
+            if (pelicula == null)
+            {
+                return new EntradaModels(); 
+            }
+
+            IQueryable<Entradum> query1 = _context.Entrada.Where(x => x.IdPelicula == id).Include(x=>x.IdSalaNavigation).IgnoreAutoIncludes();
+
+            query1 = query1.Include(x => x.IdAsientoNavigation);
 
             var query2 = (await query1.ToArrayAsync()).GroupBy(x => x.Hora);
 
-            var query3 = (await query1.ToArrayAsync()).GroupBy(x => x.IdSalaNavigation);
+            var query3 = (await query1.Include(x=>x.IdAsientoNavigation).ToArrayAsync()).GroupBy(x => x.IdSalaNavigation);
 
             var horarios = query2.Select(x => x.Key).ToArray();
 
             var salas =  query3.Select(x => x.Key).ToArray();
 
-            
+            pelicula.Entrada = null;
 
             EntradaModels entradaQueryModels = new EntradaModels() {
                 Pelicula = pelicula,
                 Fechas = horarios,
                 Salas = salas,               
             };
+            
             return entradaQueryModels;
-       
         }
     }
 }

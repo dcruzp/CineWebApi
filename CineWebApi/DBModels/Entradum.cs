@@ -19,7 +19,7 @@ namespace CineWebApi.DBModels
         public DateTime Hora { get; set; }
         public decimal Precio { get; set; }
 
-        public virtual Asiento IdAsientoNavigation { get; set; }
+
         public virtual Pelicula IdPeliculaNavigation { get; set; }
         public virtual Sala IdSalaNavigation { get; set; }
         public virtual ICollection<Compra> Compras { get; set; }

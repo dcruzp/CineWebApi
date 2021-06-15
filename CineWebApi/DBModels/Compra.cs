@@ -15,5 +15,6 @@ namespace CineWebApi.DBModels
 
         public virtual Descuento IdDescuentoNavigation { get; set; }
         public virtual Entradum IdEntradaNavigation { get; set; }
+        public virtual Asiento IdAsientoNavigation { get; set; }
     }
 }

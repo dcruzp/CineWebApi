@@ -10,7 +10,7 @@ namespace CineWebApi.Models
     public class EntradaModels
     {
         public Pelicula Pelicula { get; set; }
-        public ICollection<Sala>  Salas{ get; set; }        
+        public ICollection<Sala> Salas{ get; set; }        
         public ICollection<DateTime> Fechas { get; set;  }
     }
 }
