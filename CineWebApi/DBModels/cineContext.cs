@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CineWebApi.DBModels
 {
-    public partial class CineContext : IdentityDbContext<CineUser>
+    public partial class CineContext:IdentityDbContext<CineUser>
     {
         public CineContext()
         {
@@ -21,18 +21,18 @@ namespace CineWebApi.DBModels
         public virtual DbSet<Asiento> Asientos { get; set; }
         public virtual DbSet<Compra> Compras { get; set; }
         public virtual DbSet<Descuento> Descuentos { get; set; }
-        public virtual DbSet<Entradum> Entrada { get; set; }
+        public virtual DbSet<Entradas> Entrada { get; set; }
         public virtual DbSet<Pelicula> Peliculas { get; set; }
         public virtual DbSet<Sala> Salas { get; set; }
         public virtual DbSet<Socio> Socios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-5FBAI0E;Initial Catalog=Cine; Integrated Security=true");
-            }
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//                optionsBuilder.UseSqlServer("Data Source=DESKTOP-5FBAI0E;Initial Catalog=Cine; Integrated Security=true");
+//            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,13 +57,13 @@ namespace CineWebApi.DBModels
 
             modelBuilder.Entity<Compra>(entity =>
             {
-                entity.HasKey(e => new { e.IdCompra, e.IdEntrada });
+                entity.HasKey(e => new { e.IdCompra });
 
                 entity.ToTable("Compra");
 
                 entity.Property(e => e.IdCompra).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.IdEntrada).HasDefaultValueSql("(newid())");
+                //entity.Property(e => e.IdEntrada).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Hora).HasColumnType("datetime");
 
@@ -77,6 +77,9 @@ namespace CineWebApi.DBModels
                     .HasForeignKey(d => d.IdEntrada)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Compra_Entrada");
+
+                //entity.HasOne(d => d.IdAsientoNavigation)
+                //    .WithMany(p => p)
             });
 
             modelBuilder.Entity<Descuento>(entity =>
@@ -91,7 +94,7 @@ namespace CineWebApi.DBModels
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Entradum>(entity =>
+            modelBuilder.Entity<Entradas>(entity =>
             {
                 entity.HasKey(e => e.IdEntrada);
 
@@ -100,13 +103,7 @@ namespace CineWebApi.DBModels
                 entity.Property(e => e.Hora).HasColumnType("datetime");
 
                 entity.Property(e => e.Precio).HasColumnType("money");
-
-                entity.HasOne(d => d.IdAsientoNavigation)
-                    .WithMany(p => p.Entrada)
-                    .HasForeignKey(d => d.IdAsiento)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Entrada_Asientos");
-
+                             
                 entity.HasOne(d => d.IdPeliculaNavigation)
                     .WithMany(p => p.Entrada)
                     .HasForeignKey(d => d.IdPelicula)

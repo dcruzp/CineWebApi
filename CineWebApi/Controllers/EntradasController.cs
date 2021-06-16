@@ -27,7 +27,7 @@ namespace CineWebApi.Controllers
 
         //GET: api/<EntradasController>
         [HttpGet]
-        public async Task<ActionResult<Entradum[]>> Get()
+        public async Task<ActionResult<Entradas[]>> Get()
         {
             try
             {
@@ -42,7 +42,7 @@ namespace CineWebApi.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<Entradum[]>> Get([FromQuery] EntradaQueryModels query)
+        public async Task<ActionResult<Entradas[]>> Get([FromQuery] EntradaQueryModels query)
         {
             try
             {
@@ -51,7 +51,12 @@ namespace CineWebApi.Controllers
                 var entradas = await _repository.GetAllEntradasAsync(min_price: query.minPrice,
                                                                      max_price: query.maxPrice,
                                                                      min_datetime: query.minDatetime,
-                                                                     max_datetime: query.maxDatetime);
+                                                                     max_datetime: query.maxDatetime,
+                                                                     idpelicula: query.idPelicula,
+                                                                     nombrePelicula: query.nombrePelicula,
+                                                                     idSala: query.idSala,
+                                                                     nombreSala: query.nombreSala
+                                                                     );
 
                 return entradas;
             }
@@ -62,7 +67,7 @@ namespace CineWebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Entradum>> Get([FromQuery]Guid id)
+        public async Task<ActionResult<Entradas>> Get([FromQuery]Guid id)
         {
             try
             {
@@ -90,7 +95,7 @@ namespace CineWebApi.Controllers
 
         // DELETE api/<EntradasController>/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Entradum>> Delete(Guid id)
+        public async Task<ActionResult<Entradas>> Delete(Guid id)
         {
             try
             {

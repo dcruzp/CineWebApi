@@ -10,7 +10,7 @@ namespace CineWebApi.DBModels
         public Sala()
         {
             Asientos = new HashSet<Asiento>();
-            Entrada = new HashSet<Entradum>();
+            Entrada = new HashSet<Entradas>();
         }
 
         public Guid IdSala { get; set; }
@@ -18,6 +18,6 @@ namespace CineWebApi.DBModels
         public int CantidadAsientos { get; set; }
 
         public virtual ICollection<Asiento> Asientos { get; set; }
-        public virtual ICollection<Entradum> Entrada { get; set; }
+        public virtual ICollection<Entradas> Entrada { get; set; }
     }
 }

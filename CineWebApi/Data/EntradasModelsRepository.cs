@@ -34,13 +34,13 @@ namespace CineWebApi.Data
                 return new EntradaModels(); 
             }
 
-            IQueryable<Entradum> query1 = _context.Entrada.Where(x => x.IdPelicula == id).Include(x=>x.IdSalaNavigation).IgnoreAutoIncludes();
+            IQueryable<Entradas> query1 = _context.Entrada.Where(x => x.IdPelicula == id).Include(x=>x.IdSalaNavigation).IgnoreAutoIncludes();
 
-            query1 = query1.Include(x => x.IdAsientoNavigation);
+            
 
             var query2 = (await query1.ToArrayAsync()).GroupBy(x => x.Hora);
 
-            var query3 = (await query1.Include(x=>x.IdAsientoNavigation).ToArrayAsync()).GroupBy(x => x.IdSalaNavigation);
+            var query3 = (await query1.ToArrayAsync()).GroupBy(x => x.IdSalaNavigation);
 
             var horarios = query2.Select(x => x.Key).ToArray();
 

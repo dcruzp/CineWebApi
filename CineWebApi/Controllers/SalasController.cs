@@ -67,7 +67,7 @@ namespace CineWebApi.Controllers
 
                 for (int i = 0; i < sala.CantidadAsientos; i++)
                 {
-                    sala.Asientos.Add(new Asiento() { Ocupado = false });
+                    sala.Asientos.Add(new Asiento() {  });
                 }
 
                 _repository.Add(sala); 

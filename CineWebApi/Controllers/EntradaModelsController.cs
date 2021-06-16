@@ -24,19 +24,19 @@ namespace CineWebApi.Controllers
         }
 
         // GET: api/<ModelEntradaController>
-        [HttpGet]
-        public async Task<ActionResult<EntradaModels>> Get()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch 
-            {
+        //[HttpGet]
+        //public async Task<ActionResult<EntradaModels>> Get()
+        //{
+        //    try
+        //    {
+        //        return Ok();
+        //    }
+        //    catch 
+        //    {
 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
 
         // GET api/<ModelEntradaController>/5
         [HttpGet("{id}")]

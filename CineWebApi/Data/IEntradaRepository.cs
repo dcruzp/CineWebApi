@@ -15,13 +15,17 @@ namespace CineWebApi.Data
 
         public Task<bool> SaveChangesAsync();
 
-        public Task<Entradum[]> GetAllEntradasAsync();
+        public Task<Entradas[]> GetAllEntradasAsync();
 
-        public Task<Entradum> GetEntradaAsync(Guid id);
+        public Task<Entradas> GetEntradaAsync(Guid id);
 
-        public Task<Entradum[]> GetAllEntradasAsync(DateTime min_datetime,
+        public Task<Entradas[]> GetAllEntradasAsync(DateTime min_datetime,
                                                     DateTime max_datetime,
                                                     decimal min_price,
-                                                    decimal max_price); 
+                                                    decimal max_price,
+                                                    Guid idpelicula,
+                                                    string nombrePelicula,
+                                                    Guid idSala,
+                                                    string nombreSala); 
     }
 }

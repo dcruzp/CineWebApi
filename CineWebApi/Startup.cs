@@ -168,7 +168,7 @@ namespace CineWebApi
 
             for (int i = 0; i < sala.CantidadAsientos; i++)
             {
-                Asiento asiento = new Asiento() { Ocupado = false };
+                Asiento asiento = new Asiento() { };
                 asientos.Add(asiento); 
             }
 
@@ -188,11 +188,10 @@ namespace CineWebApi
 
             foreach (var item in context.Asientos.Where(x=>x.IdSala == Sala.IdSala))
             {
-                var entrada = new Entradum()
+                var entrada = new Entradas()
                 {
                     IdPelicula = Pelicula.IdPelicula,
                     IdSala = Sala.IdSala,
-                    IdAsiento = item.IdAsiento,
                     Hora = hora,
                     Precio = 15
                 };

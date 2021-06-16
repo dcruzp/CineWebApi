@@ -31,12 +31,12 @@ namespace CineWebApi.Data
             _context.Remove(entity); 
         }
 
-        public async Task<Entradum[]> GetAllEntradasAsync()
+        public async Task<Entradas[]> GetAllEntradasAsync()
         {
             _logger.LogInformation($"Filtrando todas las entradas que hay" +
                                      $" en la base de datos");
 
-            IQueryable<Entradum> query = _context.Entrada;
+            IQueryable<Entradas> query = _context.Entrada;
 
             //Ordenandolas de forma descendente por la hora en que 
             //entan disponibles las entradas. 
@@ -45,32 +45,66 @@ namespace CineWebApi.Data
             return await query.ToArrayAsync();
         }
 
-        public async Task<Entradum[]> GetAllEntradasAsync(DateTime min_datetime, 
+       
+
+        public async Task<Entradas[]> GetAllEntradasAsync(DateTime min_datetime, 
                                                     DateTime max_datetime, 
                                                     decimal min_price, 
-                                                    decimal max_price)
+                                                    decimal max_price, 
+                                                    Guid idpelicula, 
+                                                    string nombrePelicula, 
+                                                    Guid idSala, 
+                                                    string nombreSala)
         {
             _logger.LogInformation($"filtrando las entradas que corresponden a " +
                 $"el rango de fecha entre {min_datetime} y {max_datetime} " +
-                $"y por el precio entre {min_price} , {max_price}" );
+                $"y por el precio entre {min_price} , {max_price}");
+               
 
-            IQueryable<Entradum> query = _context.Entrada;
+            IQueryable<Entradas> query = _context.Entrada;
 
             //filtando por hora de presentacion de las entradas
             query = query.Where(x => x.Hora > min_datetime && x.Hora < max_datetime);
 
-            // filtrando por el precio de las entradas 
+            //filtrando por el precio de las entradas 
             query = query.Where(x => x.Precio > min_price && x.Precio < max_price);
 
-            return await query.ToArrayAsync(); 
+
+            //filtando por el id de la pelicula
+            if(idpelicula != Guid.Empty)
+            {
+                query = query.Where(x => x.IdEntrada == idpelicula);
+            }
+
+
+            //filtando por el nombre de la pelicula 
+            if (!string.IsNullOrEmpty(nombrePelicula))
+            {
+                query = query.Where(x => x.IdPeliculaNavigation.Titulo == nombrePelicula);
+            }
+            
+
+            //filtrando por el id de la sala 
+            if (idSala != Guid.Empty)
+            {
+                query = query.Where(x => x.IdSala == idSala);
+            }
+
+            //filtrando por el nombre de la sala 
+            if (!string.IsNullOrEmpty(nombreSala))
+            {
+                query = query.Where(x => x.IdSalaNavigation.Nombre == nombreSala);
+            }
+
+            return await query.ToArrayAsync();
         }
 
-        public async Task<Entradum> GetEntradaAsync(Guid id)
+        public async Task<Entradas> GetEntradaAsync(Guid id)
         {
             _logger.LogInformation($"filtrando la entrada que corresponde " +
                 $"el Id = {id.ToString()}");
 
-            IQueryable<Entradum> query = _context.Entrada;
+            IQueryable<Entradas> query = _context.Entrada;
 
             query = query.Where(x => x.IdEntrada == id);
 

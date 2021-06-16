@@ -10,7 +10,7 @@ namespace CineWebApi.DBModels
     {
         public Pelicula()
         {
-            Entrada = new HashSet<Entradum>();
+            Entrada = new HashSet<Entradas>();
         }
 
         public Guid IdPelicula { get; set; }
@@ -22,7 +22,8 @@ namespace CineWebApi.DBModels
         public DateTime? FechaEstreno { get; set; }
         public TimeSpan? Duracion { get; set; }
         public double Evaluacion { get; set; }
+        public string DireccionFoto { get; set; }
 
-        public virtual ICollection<Entradum> Entrada { get; set; }
+        public virtual ICollection<Entradas> Entrada { get; set; }
     }
 }
