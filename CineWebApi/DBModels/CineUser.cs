@@ -9,6 +9,5 @@ namespace CineWebApi.DBModels
 {
     public class CineUser:IdentityUser
     {
-    
     }
 }

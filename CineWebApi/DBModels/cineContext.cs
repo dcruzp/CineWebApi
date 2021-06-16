@@ -18,6 +18,7 @@ namespace CineWebApi.DBModels
         {
         }
 
+        public virtual DbSet<CompraAsientos> CompraAsientos { get; set;  }
         public virtual DbSet<Asiento> Asientos { get; set; }
         public virtual DbSet<Compra> Compras { get; set; }
         public virtual DbSet<Descuento> Descuentos { get; set; }
@@ -47,7 +48,7 @@ namespace CineWebApi.DBModels
 
                 entity.Property(e => e.IdAsiento).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.IdSala).HasComment("Este compo es para tener una representacion del Id de la Sala en la que se encuantra el Asiento ");
+                entity.Property(e => e.IdSala).HasComment("Este campo es para tener una representacion del Id de la Sala en la que se encuantra el Asiento ");
 
                 entity.HasOne(d => d.IdSalaNavigation)
                     .WithMany(p => p.Asientos)
@@ -63,23 +64,18 @@ namespace CineWebApi.DBModels
 
                 entity.Property(e => e.IdCompra).HasDefaultValueSql("(newid())");
 
-                //entity.Property(e => e.IdEntrada).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Hora).HasColumnType("datetime");
 
-                entity.HasOne(d => d.IdDescuentoNavigation)
-                    .WithMany(p => p.Compras)
-                    .HasForeignKey(d => d.IdDescuento)
-                    .HasConstraintName("FK_Compra_Descuentos1");
+               
 
                 entity.HasOne(d => d.IdEntradaNavigation)
                     .WithMany(p => p.Compras)
                     .HasForeignKey(d => d.IdEntrada)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Compra_Entrada");
+                
 
-                //entity.HasOne(d => d.IdAsientoNavigation)
-                //    .WithMany(p => p)
             });
 
             modelBuilder.Entity<Descuento>(entity =>
@@ -93,6 +89,17 @@ namespace CineWebApi.DBModels
                     .HasMaxLength(30)
                     .IsUnicode(false);
             });
+
+            modelBuilder.Entity<CompraAsientos>(entity =>
+                {
+                    entity.HasKey(x => x.IdCompra);
+
+                    entity.HasKey(x => x.IdAsiento);
+
+                    entity.HasOne(d => d.IdAsientoNavigational);
+                        
+                    
+                });
 
             modelBuilder.Entity<Entradas>(entity =>
             {

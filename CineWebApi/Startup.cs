@@ -63,7 +63,8 @@ namespace CineWebApi
             services.AddScoped<ISociosRepository,SociosRepository>();
             services.AddScoped<IEntradaRepository,EntradaRepository>();
             services.AddScoped<ISalasRepository, SalasRepository>();
-            services.AddScoped<IEntradasModelsRepository, EntradasModelsRepository>(); 
+            services.AddScoped<IEntradasModelsRepository, EntradasModelsRepository>();
+            services.AddScoped<IComprasRepository, ComprasRepository>(); 
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
