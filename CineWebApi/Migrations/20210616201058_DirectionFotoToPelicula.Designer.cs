@@ -4,14 +4,16 @@ using CineWebApi.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CineWebApi.Migrations
 {
     [DbContext(typeof(CineContext))]
-    partial class CineContextModelSnapshot : ModelSnapshot
+    [Migration("20210616201058_DirectionFotoToPelicula")]
+    partial class DirectionFotoToPelicula
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,6 +29,9 @@ namespace CineWebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<Guid?>("CompraIdCompra")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("IdSala")
                         .HasColumnType("uniqueidentifier")
                         .HasComment("Este campo es para tener una representacion del Id de la Sala en la que se encuantra el Asiento ");
@@ -38,6 +43,8 @@ namespace CineWebApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdAsiento");
+
+                    b.HasIndex("CompraIdCompra");
 
                     b.HasIndex("IdSala");
 
@@ -116,9 +123,6 @@ namespace CineWebApi.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("(newid())");
 
-                    b.Property<bool>("Cancelado")
-                        .HasColumnType("bit");
-
                     b.Property<Guid?>("DescuentoIdDescuento")
                         .HasColumnType("uniqueidentifier");
 
@@ -146,9 +150,6 @@ namespace CineWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CompraIdCompra")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("IdAsientoNavigationalIdAsiento")
                         .HasColumnType("uniqueidentifier");
 
@@ -165,8 +166,6 @@ namespace CineWebApi.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdAsiento");
-
-                    b.HasIndex("CompraIdCompra");
 
                     b.HasIndex("IdAsientoNavigationalIdAsiento");
 
@@ -461,6 +460,10 @@ namespace CineWebApi.Migrations
 
             modelBuilder.Entity("CineWebApi.DBModels.Asiento", b =>
                 {
+                    b.HasOne("CineWebApi.DBModels.Compra", null)
+                        .WithMany("IdAsientosNavigation")
+                        .HasForeignKey("CompraIdCompra");
+
                     b.HasOne("CineWebApi.DBModels.Sala", "IdSalaNavigation")
                         .WithMany("Asientos")
                         .HasForeignKey("IdSala")
@@ -488,10 +491,6 @@ namespace CineWebApi.Migrations
 
             modelBuilder.Entity("CineWebApi.DBModels.CompraAsientos", b =>
                 {
-                    b.HasOne("CineWebApi.DBModels.Compra", null)
-                        .WithMany("IdAsientosNavigation")
-                        .HasForeignKey("CompraIdCompra");
-
                     b.HasOne("CineWebApi.DBModels.Asiento", "IdAsientoNavigational")
                         .WithMany()
                         .HasForeignKey("IdAsientoNavigationalIdAsiento");

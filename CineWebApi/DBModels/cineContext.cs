@@ -18,7 +18,6 @@ namespace CineWebApi.DBModels
         {
         }
 
-        public virtual DbSet<CompraAsientos> CompraAsientos { get; set;  }
         public virtual DbSet<Asiento> Asientos { get; set; }
         public virtual DbSet<Compra> Compras { get; set; }
         public virtual DbSet<Descuento> Descuentos { get; set; }
@@ -29,11 +28,12 @@ namespace CineWebApi.DBModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-//            if (!optionsBuilder.IsConfigured)
-//            {
+            if (!optionsBuilder.IsConfigured)
+            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Data Source=DESKTOP-5FBAI0E;Initial Catalog=Cine; Integrated Security=true");
-//            }
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-5FBAI0E;Initial Catalog=Cine; Integrated Security=true")
+                    .EnableSensitiveDataLogging(true);
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -64,18 +64,28 @@ namespace CineWebApi.DBModels
 
                 entity.Property(e => e.IdCompra).HasDefaultValueSql("(newid())");
 
-
                 entity.Property(e => e.Hora).HasColumnType("datetime");
 
-               
+                entity.Property(e => e.IdSocio);
+
+                entity.Property(e => e.IdDescuento);
+
+                entity.Property(e => e.Cancelado);
 
                 entity.HasOne(d => d.IdEntradaNavigation)
                     .WithMany(p => p.Compras)
                     .HasForeignKey(d => d.IdEntrada)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Compra_Entrada");
-                
 
+                entity.HasOne(d => d.IdDescuentoNavicational)
+                    .WithMany(p => p.Compras)
+                    .HasForeignKey(d => d.IdCompra)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Compra_Descuento");
+
+                //entity.HasOne(d => d.IdAsientoNavicational)
+                //    .WithMany(p => p.)
             });
 
             modelBuilder.Entity<Descuento>(entity =>
@@ -89,17 +99,6 @@ namespace CineWebApi.DBModels
                     .HasMaxLength(30)
                     .IsUnicode(false);
             });
-
-            modelBuilder.Entity<CompraAsientos>(entity =>
-                {
-                    entity.HasKey(x => x.IdCompra);
-
-                    entity.HasKey(x => x.IdAsiento);
-
-                    entity.HasOne(d => d.IdAsientoNavigational);
-                        
-                    
-                });
 
             modelBuilder.Entity<Entradas>(entity =>
             {
@@ -135,7 +134,13 @@ namespace CineWebApi.DBModels
 
                 entity.Property(e => e.Duracion).HasColumnType("time(3)");
 
+
+
                 entity.Property(e => e.FechaEstreno).HasColumnType("date");
+
+                entity.Property(e => e.DireccionFoto)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Genero)
                     .HasMaxLength(50)

@@ -38,7 +38,7 @@ namespace CineWebApi.Controllers
             }
         }
 
-        // GET api/<ComprasController>/5
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<Compra>> GetComprasById(Guid id)
         {
@@ -54,19 +54,17 @@ namespace CineWebApi.Controllers
             }
         }
 
-        // POST api/<ComprasController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<ComprasController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<ComprasController>/5
+        
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

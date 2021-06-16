@@ -16,7 +16,6 @@ namespace CineWebApi.DBModels
         
         public Guid IdAsiento { get; set; }        
         public string Tipo { get; set; } 
-        [Required]
         public int NumeroAsiento { get; set; }
         public Guid IdSala { get; set; }
 
