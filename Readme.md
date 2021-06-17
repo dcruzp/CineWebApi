@@ -108,3 +108,48 @@ Los paquetes que usa la aplicación son los siguientes:
 Es importante instalar estos paquetes en la solucion para que 
 la solución corra en correctamente. 
 
+
+## Estructura de la base de datos 
+
+### Tablas de la Base de Datos
+
+En esta imagen se muestran todas las tablas que maneja nuestra solución en la 
+base de datos *Cine*
+
+ ![](img/tablasDB.png)
+
+
+### Detalles de los Campos de las tablas
+
+ - ##### Tabla Película 
+    Esta tabla se utiliza para almacenar las películas con los datos 
+    correspondientes que hay en el cine y que el administrador del cine 
+    puede poner en las salas del cine   
+
+    ![](img/tablaPelicula.png)
+
+ - ##### Tabla Sala 
+
+    Esta tabla es para representar las Salas que hay en el cine donde
+    pueden ser vistas las películas que se ponen en el cine
+
+    ![](img/tablaSala.png)
+
+ - ##### Tabla Compra 
+   
+    Esta tabla es para representar las Compras de entradas que se realizan en 
+    la base de datos 
+
+    ![](img/tablaCompra.png)
+
+ - ##### Tabla Entrada
+    Esta tabla es para representar las posibles entrada que hay para el cine 
+    
+   ![](img/tablaEntrada.png)
+
+ - ##### Tabla Descuento 
+   
+    Esto es para representar los descuentos que se le pueden aplicar a una 
+    compra por un usuario determinado
+
+   ![](img/tablaDescuento.png)
