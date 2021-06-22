@@ -119,7 +119,7 @@ base de datos *Cine*
  ![](img/tablasDB.png)
 
 
-### Detalles de los Campos de las tablas
+### Detalles de las Tablas de la Base de Datos
 
  - ##### Tabla Película 
     Esta tabla se utiliza para almacenar las películas con los datos 
@@ -153,3 +153,14 @@ base de datos *Cine*
     compra por un usuario determinado
 
    ![](img/tablaDescuento.png)
+
+ - ##### Tabla CompraAsientos
+   
+    Esto es para representar la compra de un asiento o de varios asientos 
+    para una entrada determinada por un usuario dado.
+
+   ![](img/tablaCompraAsiento.png)
+
+### Diagrama del modelos de la Base de Datos
+
+   ![](img/DiagramDBCine.png) 

@@ -23,22 +23,7 @@ namespace CineWebApi.Controllers
             _repository = repository;
         }
 
-        // GET: api/<ModelEntradaController>
-        //[HttpGet]
-        //public async Task<ActionResult<EntradaModels>> Get()
-        //{
-        //    try
-        //    {
-        //        return Ok();
-        //    }
-        //    catch 
-        //    {
-
-        //        throw;
-        //    }
-        //}
-
-        // GET api/<ModelEntradaController>/5
+      
         [HttpGet("{id}")]
         public async Task<ActionResult<EntradaModels>>  Get(Guid id)
         {
